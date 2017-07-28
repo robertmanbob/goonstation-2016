@@ -315,6 +315,11 @@
 	hit_type = DAMAGE_CUT
 	flags = FPRINT | TABLEPASS | NOSHIELD | USEDELAY
 	force = 15 //Was at 5, but that felt far too weak.
+	throwforce = 5.0
+	throw_speed = 1
+	throw_range = 5
+	is_syndicate = 1
+	contraband = 5 //Fun fact: sheathing your katana makes you 100% less likely to be tazed by beepsky, probably
 	w_class = 4
 	hitsound = 'sound/effects/bloody_stab.ogg'
 
