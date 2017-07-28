@@ -355,7 +355,7 @@
 //There's probably a better way to do this, but i'm a bad coder. Yell at me at the forums if you have a better idea.
 /obj/item/sheath
 	name = "sheath"
-	desc = "It can store and clean a bloodied katana. A sheath can also be used to more easily store a katana"
+	desc = "It can clean a bloodied katana, and also allows for easier storage of a katana"
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "sheathed"
 	inhand_image_icon = 'icons/mob/inhand/hand_weapons.dmi'
