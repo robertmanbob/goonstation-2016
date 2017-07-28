@@ -5,6 +5,7 @@
 // - Dagger
 // - Butcher's knife
 // - Axe
+// - Katana
 
 ////////////////////////////////////////////// Weapon parent //////////////////////////////////
 /* unused now
@@ -299,3 +300,102 @@
 
 /obj/item/axe/vr
 	icon = 'icons/effects/VR.dmi'
+
+
+/////////////////////////////////////////////////// Katana ////////////////////////////////////////////
+//PS the description can be shortened if you find it annoying and you are a jerk.
+
+//You probably want to spawn the sheath in instead of this.
+/obj/item/katana
+	name = "katana"
+	desc = "That's it. I'm sick of all this 'Masterwork Cyalume Saber' bullshit that's going on in the SS13 system right now. Katanas deserve much better than that. Much, much better than that. I should know what I'm talking about. I myself commissioned a genuine katana in Space Japan for 2,400,000 Nuyen (that's about 20,000 credits) and have been practicing with it for almost 2 years now. I can even cut slabs of solid mauxite with my katana. Space Japanese smiths spend light-years working on a single katana and fold it up to a million times to produce the finest blades known to space mankind. Katanas are thrice as sharp as Syndicate sabers and thrice as hard for that matter too. Anything a c-saber can cut through, a katana can cut through better. I'm pretty sure a katana could easily bisect a drunk captain wearing full captain's armor with a simple tap. Ever wonder why the Syndicate never bothered conquering Space Japan? That's right, they were too scared to fight the disciplined Space Samurai and their space katanas of destruction. Even in World War 72, Nanotrasen soldiers targeted the men with the katanas first because their killing power was feared and respected."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "katana"
+	inhand_image_icon = 'icons/mob/inhand/hand_weapons.dmi'
+	hit_type = DAMAGE_CUT
+	flags = FPRINT | TABLEPASS | NOSHIELD | USEDELAY
+	force = 15 //Was at 5, but that felt far too weak.
+	w_class = 4
+	hitsound = 'sound/effects/bloody_stab.ogg'
+
+/obj/item/katana/attack(mob/target as mob, mob/user as mob)
+	var/zoney = user.zone_sel.selecting
+	var/mob/living/carbon/human/H = target
+	switch(zoney)
+		if("head")
+			return ..()
+		if("chest")
+			return ..()
+		if("r_arm")
+			H.sever_limb(zoney)
+			return ..()
+		if("l_arm")
+			H.sever_limb(zoney)
+			return ..()
+		if("r_leg")
+			H.sever_limb(zoney)
+			return ..()
+		if("l_leg")
+			H.sever_limb(zoney)
+			return ..()
+	..()
+
+/obj/item/katana/suicide(var/mob/user as mob)
+	user.visible_message("<span style=\"color:red\"><b>[user] thrusts [src] through their stomach!</b></span>")
+	var/say = pick("Kono shi wa watashinokazoku ni meiyo o ataeru","Haji no mae no shi", "Watashi wa kyo nagura reta.", "Teki ga katta", "Shinjiketo ga modotte kuru")
+	user.say(say)
+	blood_slash(user, 25)
+	user.TakeDamage("chest", 150, 0)
+	user.updatehealth()
+	spawn(100)
+		if (user)
+			user.suiciding = 0
+	return 1
+
+//There's probably a better way to do this, but i'm a bad coder. Yell at me at the forums if you have a better idea.
+/obj/item/sheath
+	name = "sheath"
+	desc = "It can store and clean a bloodied katana. A sheath can also be used to easily store a katana"
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "sheathed"
+	inhand_image_icon = 'icons/mob/inhand/hand_weapons.dmi'
+	item_state = "sheathedhand"
+	var/katana = 1
+	hit_type = DAMAGE_BLUNT
+	force = 1
+	throwforce = 5.0
+	throw_speed = 1
+	throw_range = 5
+	w_class = 3
+	flags = FPRINT | TABLEPASS | NOSHIELD | USEDELAY | ONBELT
+	is_syndicate = 1
+	stamina_damage = 35
+	stamina_cost = 30
+	stamina_crit_chance = 35
+
+	attack_hand(mob/user as mob)
+		if(user.r_hand == src || user.l_hand == src)
+			if(src.katana == 1)
+				var/obj/item/sheath/P = new/obj/item/katana
+				boutput(user, "You draw [P] from the [src].")
+				icon_state = "sheath"
+				item_state = "sheathhand"
+				user.put_in_hand_or_drop(P)
+				katana = 0
+			else
+				boutput(user, "<span style=\"color:red\">There's no katana sheathed</span>")
+				return
+
+		else
+			return ..()
+
+	attackby(obj/item/W as obj, mob/user as mob)
+		if (istype(W, /obj/item/katana) && src.katana == 0)
+			katana = 1
+			icon_state = "sheathed"
+			item_state = "sheathedhand"
+			user.u_equip(W)
+			W.set_loc(src)
+			boutput(user, "<span style=\"color:blue\">You sheathe [W] in the [src].</span>")
+			contents = null
+		else ..()
