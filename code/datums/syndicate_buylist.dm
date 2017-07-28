@@ -166,6 +166,12 @@ proc/build_syndi_buylist_cache()
 	not_in_crates = 1
 	blockedmode = list(/datum/game_mode/spy, /datum/game_mode/revolution)
 
+/datum/syndicate_buylist/generic/katana
+	name = "Katana"
+	item = /obj/item/sheath
+	cost = 7
+	desc = "A Japanese sword created in the fire of a dying star. Comes with a sheath for easier storage"
+
 /datum/syndicate_buylist/generic/wrestling
 	name = "Wrestling Belt"
 	item = /obj/item/storage/belt/wrestling
