@@ -171,6 +171,7 @@ proc/build_syndi_buylist_cache()
 	item = /obj/item/sheath
 	cost = 7
 	desc = "A Japanese sword created in the fire of a dying star. Comes with a sheath for easier storage"
+	blockedmode = list(/datum/game_mode/spy, /datum/game_mode/revolution)
 
 /datum/syndicate_buylist/generic/wrestling
 	name = "Wrestling Belt"

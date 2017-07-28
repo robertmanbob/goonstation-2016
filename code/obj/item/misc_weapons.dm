@@ -355,7 +355,7 @@
 //There's probably a better way to do this, but i'm a bad coder. Yell at me at the forums if you have a better idea.
 /obj/item/sheath
 	name = "sheath"
-	desc = "It can store and clean a bloodied katana. A sheath can also be used to easily store a katana"
+	desc = "It can store and clean a bloodied katana. A sheath can also be used to more easily store a katana"
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "sheathed"
 	inhand_image_icon = 'icons/mob/inhand/hand_weapons.dmi'
@@ -369,9 +369,6 @@
 	w_class = 3
 	flags = FPRINT | TABLEPASS | NOSHIELD | USEDELAY | ONBELT
 	is_syndicate = 1
-	stamina_damage = 35
-	stamina_cost = 30
-	stamina_crit_chance = 35
 
 	attack_hand(mob/user as mob)
 		if(user.r_hand == src || user.l_hand == src)
