@@ -314,7 +314,7 @@
 	inhand_image_icon = 'icons/mob/inhand/hand_weapons.dmi'
 	hit_type = DAMAGE_CUT
 	flags = FPRINT | TABLEPASS | NOSHIELD | USEDELAY
-	force = 15 //Was at 5, but that felt far too weak.
+	force = 15 //Was at 5, but that felt far too weak. C-swords are at 60 in comparison. 15 is still quite a bit of damage, but just not insta-crit levels.
 	throwforce = 5.0
 	throw_speed = 1
 	throw_range = 5
@@ -357,7 +357,7 @@
 			user.suiciding = 0
 	return 1
 
-//There's probably a better way to do this, but i'm a bad coder. Yell at me at the forums if you have a better idea.
+//There's probably a better way to do this, but i'm a bad coder. Yell at me at the forums if you have a better idea. - Robert/robertmanbob
 /obj/item/sheath
 	name = "sheath"
 	desc = "It can clean a bloodied katana, and also allows for easier storage of a katana"
@@ -375,11 +375,18 @@
 	flags = FPRINT | TABLEPASS | NOSHIELD | USEDELAY | ONBELT
 	is_syndicate = 1
 
+	New()
+		..()
+		var/obj/item/sheath/P = new/obj/item/katana
+		P.set_loc(src)
+
 	attack_hand(mob/user as mob)
 		if(user.r_hand == src || user.l_hand == src)
 			if(src.katana == 1)
-				var/obj/item/sheath/P = new/obj/item/katana
-				boutput(user, "You draw [P] from the [src].")
+				//var/obj/item/sheath/P = new/obj/item/katana
+				var/obj/item/sheath/P = locate(/obj/item/katana) in src
+				P.clean_forensic()
+				boutput(user, "You draw [P] from [src].")
 				icon_state = "sheath"
 				item_state = "sheathhand"
 				user.put_in_hand_or_drop(P)
@@ -398,6 +405,5 @@
 			item_state = "sheathedhand"
 			user.u_equip(W)
 			W.set_loc(src)
-			boutput(user, "<span style=\"color:blue\">You sheathe [W] in the [src].</span>")
-			contents = null
+			boutput(user, "<span style=\"color:blue\">You sheathe [W] in [src].</span>")
 		else ..()
