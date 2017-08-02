@@ -323,11 +323,15 @@
 	w_class = 4
 	hitsound = 'sound/effects/bloody_stab.ogg'
 
-/obj/item/katana/attack(mob/target as mob, mob/user as mob)
+/obj/item/katana/attack(mob/living/carbon/human/target as mob, mob/user as mob)
+	if(target == user) //Can't cut off your own limbs, dumbo
+		return ..()
 	var/zoney = user.zone_sel.selecting
 	var/mob/living/carbon/human/H = target
 	switch(zoney)
 		if("head")
+			if(!target.limbs.r_arm && !target.limbs.l_arm && !target.limbs.l_leg && !target.limbs.r_leg) //Does the target not have all of their limbs?
+				target.organHolder.drop_organ("head") //sever_limb doesn't apply to heads :(
 			return ..()
 		if("chest")
 			return ..()
@@ -380,30 +384,31 @@
 		var/obj/item/sheath/P = new/obj/item/katana
 		P.set_loc(src)
 
-	attack_hand(mob/user as mob)
-		if(user.r_hand == src || user.l_hand == src)
-			if(src.katana == 1)
-				//var/obj/item/sheath/P = new/obj/item/katana
-				var/obj/item/sheath/P = locate(/obj/item/katana) in src
+	attack_hand(mob/living/carbon/human/user as mob)
+		if(user.r_hand == src || user.l_hand == src || user.belt == src)
+			if(src.katana == 1) //Checks if a katana is SUPPOSED to be in the sheath
+				var/obj/item/sheath/P = locate(/obj/item/katana) in src //Removes said katana from sheath
 				P.clean_forensic()
 				boutput(user, "You draw [P] from [src].")
 				icon_state = "sheath"
 				item_state = "sheathhand"
 				user.put_in_hand_or_drop(P)
-				katana = 0
+				katana = 0 //Katana shouldn't still be sheath
+			else if(user.r_hand == src || user.l_hand == src) //Trying to take out a katana that doesn't exist?
+				boutput(user, "<span style=\"color:red\">There is no katana sheathed</span>")
+				return ..() //Swaps hands as normal after informing the player of katana deficiency.
 			else
-				boutput(user, "<span style=\"color:red\">There's no katana sheathed</span>")
-				return
+				return ..()//Katana doesn't exist, and takes the sheath off your belt.
 
 		else
 			return ..()
 
 	attackby(obj/item/W as obj, mob/user as mob)
 		if (istype(W, /obj/item/katana) && src.katana == 0)
-			katana = 1
 			icon_state = "sheathed"
 			item_state = "sheathedhand"
 			user.u_equip(W)
 			W.set_loc(src)
+			katana = 1 //WOW, katana SHOULD be in the sheath now.
 			boutput(user, "<span style=\"color:blue\">You sheathe [W] in [src].</span>")
 		else ..()
