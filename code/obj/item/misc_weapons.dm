@@ -394,6 +394,7 @@
 				item_state = "sheathhand"
 				user.put_in_hand_or_drop(P)
 				katana = 0 //Katana shouldn't still be sheath
+				user.update_clothing()
 			else if(user.r_hand == src || user.l_hand == src) //Trying to take out a katana that doesn't exist?
 				boutput(user, "<span style=\"color:red\">There is no katana sheathed</span>")
 				return ..() //Swaps hands as normal after informing the player of katana deficiency.
@@ -409,6 +410,7 @@
 			item_state = "sheathedhand"
 			user.u_equip(W)
 			W.set_loc(src)
+			user.update_clothing()
 			katana = 1 //WOW, katana SHOULD be in the sheath now.
 			boutput(user, "<span style=\"color:blue\">You sheathe [W] in [src].</span>")
 		else ..()
