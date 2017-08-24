@@ -170,7 +170,7 @@ proc/build_syndi_buylist_cache()
 	name = "Katana"
 	item = /obj/item/sheath
 	cost = 7
-	desc = "A Japanese sword created in the fire of a dying star. Comes with a sheath for easier storage"
+	desc = "A Japanese sword created in the fire of a dying star. The Katana is sharp enough to remove the limbs of your enemies instantly.  Comes with a sheath for easier storage."
 	blockedmode = list(/datum/game_mode/spy, /datum/game_mode/revolution)
 
 /datum/syndicate_buylist/generic/wrestling
