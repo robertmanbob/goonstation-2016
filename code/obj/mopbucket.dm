@@ -7,6 +7,7 @@
 	flags = FPRINT
 	pressure_resistance = ONE_ATMOSPHERE
 	flags = FPRINT | TABLEPASS | OPENCONTAINER
+	var/signs = 0 //Used when adding signs to the mopbucket.
 
 /obj/mopbucket/New()
 	var/datum/reagents/R = new/datum/reagents(50)
@@ -34,7 +35,25 @@
 			playsound(src.loc, "sound/effects/slosh.ogg", 25, 1)
 		if (src.reagents.total_volume < 1)
 			boutput(user, "<span style=\"color:blue\">Out of water!</span>")
+	else if (istype(W, /obj/item/caution))
+		user.u_equip(W)
+		W.set_loc(src)
+		signs++
+		boutput(user, "<span style=\"color:blue\">You place [W] in [src]'s sign holder. It now holds [signs].</span>")
+		icon_state = "mopbucketcaution"
 	else
+		return ..()
+
+/obj/mopbucket/attack_hand(mob/living/carbon/human/user as mob)
+	if (src.signs >= 1)
+		var/obj/mopbucket/P = locate(/obj/item/caution) in src
+		signs--
+		user.put_in_hand_or_drop(P)
+		boutput(user, "<span style=\"color:blue\">You take [P] from [src]'s sign holder. It now holds [signs].</span>")
+		if (src.signs <= 0)
+			icon_state = "mopbucket"
+	else
+		boutput(user, "[src] holds no signs.")
 		return ..()
 
 /obj/mopbucket/MouseDrop(atom/over_object as obj)
