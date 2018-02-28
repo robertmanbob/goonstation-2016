@@ -57,10 +57,7 @@
 				// Added log_reagents() calls for drinking glasses. Also the location (Convair880).
 				logTheThing("combat", C, null, "is struck by [src] [src.is_open_container() ? "[log_reagents(src)]" : ""] at [log_loc(C)].")
 				if(src.vars.Find("throwforce"))
-					if (prob(70) || !src.vars.Find("hit_type"))
-						random_brute_damage(C, src:throwforce) //random_brute_damage only applies DAMAGE_BLUNT, so if the above passes it'll default to the no-bleeding blunt damage it did before.
-					else //It should probably be logged when the non-blunt damage is applied, but I'm not sure how to do that.
-						C.TakeDamage("All", src:throwforce, 0, 0, src:hit_type) //This gives it a 30% chance to apply whatever the normal hit_type is. If the hit_type is slash or stab, it'll apply bleeding.
+					random_brute_damage(C, src:throwforce)
 					if (ishuman(C))
 						if (C.job == "Clown")
 							score_clownabuse++
