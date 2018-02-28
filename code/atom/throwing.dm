@@ -58,6 +58,9 @@
 				logTheThing("combat", C, null, "is struck by [src] [src.is_open_container() ? "[log_reagents(src)]" : ""] at [log_loc(C)].")
 				if(src.vars.Find("throwforce"))
 					random_brute_damage(C, src:throwforce)
+					//Coding this inside github, this'll end well. Originally didn't work when directly applying DAMAGE_STAB/DAMAGE_SLASH
+					if((src:hit_type == DAMAGE_CUT || src:hit_type == DAMAGE_STAB) && prob(20))
+						take_bleeding_damage(A, null, rand(src:throwforce/5), src:hit_type) //I'm not sure what the scale for bleed damage is. This will need to be tuned.
 					if (ishuman(C))
 						if (C.job == "Clown")
 							score_clownabuse++
