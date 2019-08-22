@@ -53,14 +53,15 @@
 		return
 
 	proc/shinobi_parry(mob/M, obj/item/W)
+		var/list/parry_verbs = list("ducks under", "deflects", "dances around", "blocks", "backs away from")
 		if (M)
 			src.dir = get_dir(src, M)
 			if (W)
-				src.visible_message("<span style=\"color:red\"><B>[src] deflects the [W.name]!</B></span>")
+				src.visible_message("<span style=\"color:red\"><B>[src] " + pick(parry_verbs) + " the [W.name]</B></span>")
 				playsound(src.loc, "sound/weapons/thudswoosh.ogg", 65, 1)
 			else
 				src.visible_message("<span style=\"color:red\"><B>[src] parries [M]'s attack, throwing them to the ground!</B></span>")
-				M.weakened = max(10, M.weakened)
+				M.weakened = max(3, M.weakened)
 				playsound(src.loc, "sound/weapons/thudswoosh.ogg", 65, 1)
 		return
 
