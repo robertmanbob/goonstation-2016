@@ -68,14 +68,14 @@
 		return
 
 	verb/shinobi_alert()
-		set name = "Stance - Defensive"
+		set name = "Stance - Alert"
 		set desc = "Take a defensive stance and deflect any attackers"
 		set category = "Shinobi Stance"
 		if (!src.stat && !src.transforming)
 			src.stance = "defensive"
 
 	verb/shinobi_relaxed()
-		set name = "Stance - Normal"
+		set name = "Stance - Relaxed"
 		set desc = "Take a relaxed stance and cease your defense."
 		set category = "Shinobi Stance"
 		if (!src.stat && !src.transforming)
