@@ -13,6 +13,7 @@
 			//src.mind = new
 			src.gender = "male"
 			src.real_name = "Wolf"
+			src.stance = "defensive"
 
 			if (!src.reagents)
 				var/datum/reagents/R = new/datum/reagents(1000)
